@@ -24,5 +24,8 @@ def results():
         return redirect(url_for("mainPage"))
      return render_template("weather_result.html", weatherUpdate = response)
 
-app.run(debug = True)
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
 
