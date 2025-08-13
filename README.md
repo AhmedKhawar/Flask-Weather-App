@@ -1,7 +1,7 @@
 Flask Weather App
 
 This is a simple web app that shows real-time weather for any city in the world.
-Click the link below to use it – no installation or setup needed.
+Click the link below to use it - no installation or setup needed.
 
 Live App: [https://flask-weather-app-new.onrender.com/](https://flask-weather-app-new.onrender.com/)
 
