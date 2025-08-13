@@ -1,1 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Checker</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
+      body {
+        font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Roboto, sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 60px 40px;
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 500px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .container::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transform: rotate(45deg);
+        animation: shine 3s infinite;
+      }
+
+      @keyframes shine {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+      }
+
+      h1 {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 40px;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        letter-spacing: -0.5px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .weather-form {
+        position: relative;
+        z-index: 1;
+      }
+
+      .input-group {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      input[type="text"] {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 16px;
+        padding: 16px 24px;
+        font-size: 16px;
+        color: white;
+        width: 280px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        outline: none;
+      }
+
+      input[type="text"]::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      input[type="text"]:focus {
+        border-color: rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      input[type="submit"] {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        border: none;
+        border-radius: 16px;
+        padding: 16px 32px;
+        font-size: 16px;
+        font-weight: 600;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 8px 25px rgba(238, 90, 36, 0.3);
+      }
+
+      input[type="submit"]:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(238, 90, 36, 0.4);
+        background: linear-gradient(135deg, #ff5252 0%, #d84315 100%);
+      }
+
+      input[type="submit"]:active {
+        transform: translateY(-1px);
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 40px 30px;
+          margin: 20px;
+        }
+
+        h1 {
+          font-size: 2rem;
+          margin-bottom: 30px;
+        }
+
+        .input-group {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        input[type="text"] {
+          width: 100%;
+          max-width: 280px;
+        }
+
+        input[type="submit"] {
+          width: 100%;
+          max-width: 280px;
+        }
+      }
+
+      /* Floating particles effect */
+      .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: float 6s infinite ease-in-out;
+      }
+
+      .particle:nth-child(1) {
+        width: 10px;
+        height: 10px;
+        top: 10%;
+        left: 20%;
+        animation-delay: 0s;
+      }
+
+      .particle:nth-child(2) {
+        width: 6px;
+        height: 6px;
+        top: 20%;
+        right: 20%;
+        animation-delay: 2s;
+      }
+
+      .particle:nth-child(3) {
+        width: 8px;
+        height: 8px;
+        bottom: 30%;
+        left: 30%;
+        animation-delay: 4s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0.7;
+        }
+        50% {
+          transform: translateY(-20px) rotate(180deg);
+          opacity: 0.3;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+
+      <h1>Check the Weather</h1>
+
+      <form class="weather-form" method="POST" action="/weather_result">
+        <div class="input-group">
+          <input
+            type="text"
+            name="city"
+            placeholder="Enter city name"
+            required
+          />
+          <input type="submit" value="Get Weather" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
