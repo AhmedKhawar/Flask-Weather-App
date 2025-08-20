@@ -17,7 +17,7 @@ def mainPage():
 @app.route("/weather_result", methods=["POST"])
 def results(): 
      location = request.form["city"]
-     url = f"http://api.weatherapi.com/v1/current.json?key={API}&q={location}"
+     url = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{location}/?key={API}"
      content = requests.get(url)
      response = content.json()
      if "error" in response:
@@ -30,6 +30,7 @@ if __name__ == "__main__":
         port=int(os.environ.get("PORT", 5000)),
         debug=True
     )
+
 
 
 
